@@ -1,9 +1,14 @@
+$linkColor:      #222;
+$linkColorHover: #000;
+
+
 @import "bootstrap";
 
 /* own css */
 
 body {
-  background-color: #ececec ;
+  background-image: image-url("Butterfly.jpg");
+  background-size: 100%;
   padding-top: 30px;
 }
 
@@ -45,3 +50,42 @@ table td {
   text-align: center;
 
 }
+
+form.button_to {
+  margin:0;
+  padding:0;
+  display:inline;
+}
+
+
+form.button_to div, form.button_to div input, a.color_button{
+  display:inline;
+  border: none;  
+  -border-radius: 3px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -o-border-radius: 3px;
+  -ms-border-radius: 3px;
+}
+
+a.color_button {
+  padding: 1px 6px 2px 6px;
+}
+
+
+#red {
+  background-color: #820F08;
+  color: #fff;
+}
+
+#green {
+  background-color: #04540F;
+  color: #fff;
+}
+
+#blue {
+  background-color: #456789;
+  color: #fff;
+}
+
+  

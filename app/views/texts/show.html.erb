@@ -1,29 +1,56 @@
-<% if notice %>
-  <p id="notice" class="alert">
-<%= notice %>
+<% if @text.user %>
+  <p>
+    <img src="<%= @text.user.twitter_avatar %>" alt="twitter avatar">
   </p>
+  <% else %>
+    <h2><%= "This square was made by Anonymous." %></h2>
 <% end %>
-<h4 style="color:#456789">This is <%= @text.user.name%>'s square.</h4>
 <br>
-<p>
-  <b>YOUR TEXT:</b>
-  <%= @text.input %>
-</p>
-  <ol style="width:<%= @text.rows.first.length * 50 +26%>px; margin: 0 auto;">
-    <% @text.rows.each do |row| %>
-      <li>
-        <ol>
-          <% row.each do |square| %>
-            <li class="square" style='background-color:#<%= square.color %>'></li>
-          <% end %>
-        </ol>
-      </li> 
-    <% end %>
-  </ol>
+<div class="row">
+  <div class="span12">
+    <p>Choose a color scheme:&nbsp;</p>
+      <% ['blue', 'red', 'green'].each do |color| %>
+        <%= link_to "#{color}", text_path(@text.id, :color_scheme => color),
+                      :id => "#{color}",
+                      :class => "color_button" %> 
+      <% end%>
+</div>
+<div class="row">
+  <div class="span12" style="padding-top:20px;">
+    <ol style="width:<%= @text.rows.first.length * 50 +26%>px; margin: 0 auto;">
+      <% @text.rows.each do |row| %>
+        <li>
+          <ol>
+            <% row.each do |square| %>
 
-<br>
-<br>
-<br>
+                <li class="square" 
+                    style='background-color:#<%= square.color(params[:color_scheme]||@text.color_scheme) %>'>
+                </li>
+              
+            <% end %>
+          </ol>
+        </li>
+      <% end %>
+    </ol>
+  </div>
+</div>
+
+<div class="row">
+  <div class="span12" style="padding-top:20px;">
+    <% if @text.publish_text? %>
+      <p>
+      <b>YOUR TEXT:</b>
+      <%= @text.input %>
+      </p>
+    <% end %>
+
+    <%= form_for(@text) do |f| %>
+    <%= f.hidden_field :publish_text, :value => !@text.publish_text %>
+    <%= f.submit @text.publish_text ? 'Hide your Text' : 'Show your Text' %>
+    <% end %>
+  </div>  
+</div>
 <%= link_to 'Edit', edit_text_path(@text) %> |
 <%= link_to 'Listing Texts', texts_path %> |
 <%= link_to 'New Text', new_text_path %>
+</div>

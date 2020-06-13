@@ -1,5 +1,5 @@
 <h1>Listing texts</h1>
-
+<%= paginate @texts %>
 <table class="table table-hover">
   <thead>
     <tr>
@@ -11,19 +11,48 @@
       <th></th>
     </tr>
   </thead>
-<% @texts.each do |text| %>
-  <tr>
-    <td><%= text.user.name %></td>
-    <td style="width:400px;display:block;"><%= text.input %></td>
-    <td><i class="icon-stop"></i>&nbsp;<%= link_to 'Show', text %></td>
-    <td><i class="icon-wrench"></i>&nbsp;<%= link_to 'Edit', edit_text_path(text) %></td>
-    <td><i class="icon-trash"></i>&nbsp;<%= link_to 'Destroy', text, confirm: 'Are you sure?', method: :delete %></td>
-    <td><%= text.created_at.strftime("%d %b. %Y") %></td>
-  </tr>
-<% end %>
+  <tbody>
+    <% @texts.each do |text| %>
+      <tr>
+        <% if text.user.present? %>
+          <td><%= link_to text.user.screen_name, user_path(text.user.id) %>
+          </td>
+        <% else %>
+          <td><%= link_to "Anonymous", text %>
+          </td>
+        <% end %>
+        <td style="width:400px;display:block;">
+          <%= truncate(text.input, 
+                        :length => 140, 
+                        :separator => ' ', 
+                        :omission => '...')
+           %>
+        </td>
+        <td>
+          <i class="icon-stop"></i>&nbsp;<%= link_to 'Show', text %>
+        </td>
+        <td style="color:#777">
+          <% if can_edit_text?(current_user,text) %>
+            <i class="icon-wrench"></i>&nbsp;<%= link_to 'Edit', edit_text_path(text) %>
+          <% else %>
+            <i class="icon-wrench"></i>&nbsp;Edit
+          <% end %>
+        </td>
+        <td style="color:#777">
+          <% if can_edit_text?(current_user,text) %>           
+            <i class="icon-trash"></i>&nbsp;<%= link_to 'Destroy', text, confirm: 'Are you sure?', method: :delete %>
+            <% else %>
+            <i class="icon-trash"></i>&nbsp;Destroy
+          <% end %>
+        </td>
+        <td><%= text.created_at.strftime("%d %b. %Y") %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
 </table>
 
 <br />
 
-<%= link_to 'New Text', new_text_path %>
 
+<%= link_to 'New Text', new_text_path %>

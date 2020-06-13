@@ -11,21 +11,25 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121020143435) do
+ActiveRecord::Schema.define(:version => 20121201203802) do
 
   create_table "texts", :force => true do |t|
     t.text     "input"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",                       :null => false
+    t.datetime "updated_at",                       :null => false
     t.integer  "user_id"
+    t.boolean  "publish_text", :default => true
+    t.string   "color_scheme", :default => "blue"
   end
 
   create_table "users", :force => true do |t|
     t.string   "name"
     t.string   "email"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
     t.integer  "twitter_id"
+    t.string   "twitter_avatar"
+    t.string   "screen_name"
   end
 
 end
